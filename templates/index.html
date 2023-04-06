@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<!--
+	Stellar by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+  <head>
+    <title>면접메이트</title>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, user-scalable=no"
+    />
+    <!-- 지워야 될 부분 -->
+    <!-- <link rel="stylesheet" href="../static/assets/css/main.css" /> -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="{{url_for('static', filename='assets/css/main.css')}}"
+    />
+    <noscript
+      ><link
+        rel="stylesheet"
+        href="{{url_for('static', filename='assets/css/noscript.css')}}"
+    /></noscript>
+  </head>
+  <body class="is-preload">
+    <!-- Wrapper -->
+    <div id="wrapper">
+      <!-- Header -->
+      <header id="header" class="alt">
+        <span class="logo"><img src="images/logo.svg" alt="" /></span>
+        <h1>Interview Mate</h1>
+        <p>
+          면접을 준비하는 취업 준비생들을 위한 면접 도우미 서비스<br />
+          <!-- built by <a href="https://twitter.com/ajlkn">@ajlkn</a> for
+            <a href="https://html5up.net">HTML5 UP</a>. -->
+        </p>
+      </header>
+
+      <!-- Nav -->
+      <nav id="nav">
+        <ul>
+          <li><a href="#intro" class="active">프로그램 소개</a></li>
+          <li><a href="#first">실행 순서</a></li>
+          <li><a href="#second">기대 효과</a></li>
+          <li><a href="#cta">시작하기</a></li>
+        </ul>
+      </nav>
+
+      <!-- Main -->
+      <div id="main">
+        <!-- Introduction -->
+        <section id="intro" class="main">
+          <div class="spotlight">
+            <div class="content">
+              <header class="major">
+                <h2>프로그램 소개</h2>
+              </header>
+              <p>
+                최근에 큰 화두가 되고 있는 ChatGPT를 활용해 취업 준비생들에게
+                자기소개서를 바탕으로 한 모의 면접 기회를 제공
+              </p>
+              <ul class="actions">
+                <li><a href="generic.html" class="button">Learn More</a></li>
+              </ul>
+            </div>
+            <span class="image"><img src="images/pic01.jpg" alt="" /></span>
+          </div>
+        </section>
+
+        <!-- First Section -->
+        <section id="first" class="main special">
+          <header class="major">
+            <h2>실행 순서</h2>
+          </header>
+          <ul class="features">
+            <li>
+              <span class="icon solid major style1 fa-code"></span>
+              <h3>업로드한 PDF파일 -> 요약 텍스트</h3>
+              <p>
+                Python의 패키지를 활용해 자기소개서를 텍스트로 변환하고, 이를
+                ChatGPT를 활용해 요약해줌
+              </p>
+            </li>
+            <li>
+              <span class="icon major style3 fa-copy"></span>
+              <h3>
+                요약된 내용으로 선정된 <br />
+                면접 질문 음성 제공
+              </h3>
+              <p>
+                ChatGPT가 제공해준 질문을 선정하여 Python의 패키지를 활용해
+                음성으로 질문함
+              </p>
+            </li>
+            <li>
+              <span class="icon major style5 fa-gem"></span>
+              <h3>
+                사용자의 답변 및 <br />
+                실시간 영상 기록
+              </h3>
+              <p>
+                사용자의 화면 및 음성을 실시간으로 기록한 뒤 비언어적 요소와
+                답변을 평가하여 피드백 해줌
+              </p>
+            </li>
+          </ul>
+          <footer class="major">
+            <ul class="actions special">
+              <li><a href="generic.html" class="button">Learn More</a></li>
+            </ul>
+          </footer>
+        </section>
+
+        <!-- Second Section -->
+        <section id="second" class="main special">
+          <header class="major">
+            <h2>기대 효과</h2>
+            <p>
+              1. 면접 준비 시 사용되는 사교육 비용 감소<br />
+              2. 자기소개서 관련 예상 질문을 통한 자기소개서 피드백 가능<br />
+              3. 모의 면접을 통해 실제 면접과 유사한 경험 제공
+            </p>
+          </header>
+          <ul class="statistics">
+            <li class="style1">
+              <!-- <i class="far fa-meh-rolling-eyes fa-lg"></i> -->
+              <span class="icon fa-eye"></span>
+              <strong>시선 분석</strong>
+            </li>
+            <li class="style2">
+              <!-- <i class="fa-regular fa-face-smile fa-2xl"></i>
+                <i class="fa fa-frown-o" aria-hidden="true"></i> -->
+              <span class="icon fa-face-smile"></span>
+              <strong>표정 분석</strong>
+            </li>
+            <li class="style3">
+              <span class="icon fa-rotate-right"></span>
+              <strong>얼굴 방향 분석</strong>
+            </li>
+          </ul>
+          <!-- <p class="content">
+              Nam elementum nisl et mi a commodo porttitor. Morbi sit amet nisl eu
+              arcu faucibus hendrerit vel a risus. Nam a orci mi, elementum ac
+              arcu sit amet, fermentum pellentesque et purus. Integer maximus
+              varius lorem, sed convallis diam accumsan sed. Etiam porttitor
+              placerat sapien, sed eleifend a enim pulvinar faucibus semper quis
+              ut arcu. Ut non nisl a mollis est efficitur vestibulum. Integer eget
+              purus nec nulla mattis et accumsan ut magna libero. Morbi auctor
+              iaculis porttitor. Sed ut magna ac risus et hendrerit scelerisque.
+              Praesent eleifend lacus in lectus aliquam porta. Cras eu ornare dui
+              curabitur lacinia.
+            </p>
+            <footer class="major">
+              <ul class="actions special">
+                <li><a href="generic.html" class="button">Learn More</a></li>
+              </ul>
+            </footer> -->
+        </section>
+
+        <!-- Get Started -->
+        <section id="cta" class="main special">
+          <header class="major">
+            <h2>자기소개서를 올려주세요!</h2>
+            <p>
+              PDF 형식의 자기소개서를 제출해 주세요!<br />
+              저희 Interview Mate가 모의 면접을 해드릴게요!
+            </p>
+          </header>
+          <footer class="major">
+            <form class="pdf-send-form">
+              <input type="file" accept=".pdf" />
+              <button>제출</button>
+            </form>
+          </footer>
+        </section>
+      </div>
+
+      <!-- Footer -->
+      <footer id="footer">
+        <section>
+          <h2>@2023년 1학기 정보통신종합설계</h2>
+          <dl class="alt">
+            <dt>만든이</dt>
+            <dd>배기웅 최상우 임서경</dd>
+            <dt>지도 교수</dt>
+            <dd>박대영 교수님</dd>
+          </dl>
+        </section>
+        <p class="copyright">
+          &copy; Untitled. Design: <a href="https://html5up.net">HTML5 UP</a>.
+        </p>
+      </footer>
+    </div>
+
+    <!-- Scripts -->
+    <script
+      href="{{url_for('static', filename='assets/js/jquery.min.js')}}"
+    ></script>
+    <script
+      href="{{url_for('static', filename='assets/js/jquery.scrollex.min.js')}}"
+    ></script>
+    <script
+      href="{{url_for('static', filename='assets/jsjquery.scrolly.min.js')}}"
+    ></script>
+    <script
+      href="{{url_for('static', filename='assets/js/browser.min.js')}}"
+    ></script>
+    <script
+      href="{{url_for('static', filename='assets/js/breakpoints.min.js')}}"
+    ></script>
+    <script href="{{url_for('static', filename='assets/js/util.js')}}"></script>
+    <script href="{{url_for('static', filename='assets/js/main.js')}}"></script>
+
+    <script
+      type="module"
+      src="{{url_for('static', filename='assets/js/pdfLoader.js')}}"
+    ></script>
+  </body>
+</html>

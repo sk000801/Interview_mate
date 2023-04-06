@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <script type="module">
+    // 얘는 배열이다 (문자열을 파싱해서 코드로 변환됨)
+    const question = JSON.parse(localStorage.getItem("question"));
+    const h1 = document.querySelector("h1");
+
+    h1.insertAdjacentHTML(
+      "beforeend",
+      `${question.map((q) => `<h3>${q}</h3>`).join("")}`
+    );
+    console.log(question.join("\n"));
+  </script>
+  <body>
+    <h1>인터뷰 페이지</h1>
+  </body>
+</html>
