@@ -3,8 +3,10 @@ import PyPDF2
 import io
 import openai
 import xml.etree.ElementTree as ET
+import gtts
+from playsound import playsound
 
-openai.api_key = "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"
+openai.api_key = "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"
 
 app = Flask(__name__)
 
@@ -51,6 +53,10 @@ def makeQuestion(article):
     completion = makeRequest(question)
 
     response = completion['choices'][0]['message']['content'].strip()
+    response.split('\n')
+    tts = gtts.gTTS(response, lang = "kr")
+    tts.save("fortest.mp3")
+    playsound("fortest.mp3")
 
     return response.split('\n')
 

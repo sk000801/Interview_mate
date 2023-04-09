@@ -2387,6 +2387,7 @@ input[type="radio"]:focus + label:before {
 .icon.alt {
   display: inline-block;
   border: solid 1px;
+  
   border-radius: 100%;
 }
 
@@ -2416,7 +2417,7 @@ input[type="radio"]:focus + label:before {
 }
 
 .icon.style5 {
-  color: #8cc9f0;
+  color: #bb2142;
 }
 
 @media screen and (max-width: 1680px) {
