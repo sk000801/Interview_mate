@@ -6,7 +6,7 @@ import xml.etree.ElementTree as ET
 import gtts
 from playsound import playsound
 
-openai.api_key = "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"
+openai.api_key = "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"
 
 app = Flask(__name__)
 
@@ -54,10 +54,9 @@ def makeQuestion(article):
 
     response = completion['choices'][0]['message']['content'].strip()
     response.split('\n')
-    tts = gtts.gTTS(response, lang = "kr")
+    tts = gtts.gTTS(response, lang = "ko")
     tts.save("fortest.mp3")
-    playsound("fortest.mp3")
-
+    
     return response.split('\n')
 
 @app.route('/')

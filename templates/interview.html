@@ -10,6 +10,7 @@
     // 얘는 배열이다 (문자열을 파싱해서 코드로 변환됨)
     const question = JSON.parse(localStorage.getItem("question"));
     const h1 = document.querySelector("h1");
+    const audio = new Audio('../fortest.mp3')
 
     h1.insertAdjacentHTML(
       "beforeend",
@@ -19,5 +20,7 @@
   </script>
   <body>
     <h1>인터뷰 페이지</h1>
+    <input type = 'button' value = '음성 출력' onclick="audio.play()">
+    <audio src="../fortest.mp3" autoplay loop controls id="myAudio"></audio>
   </body>
 </html>

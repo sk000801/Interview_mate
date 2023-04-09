@@ -2371,6 +2371,7 @@ input[type="radio"]:focus + label:before {
   padding: 0.65em;
   margin: 0 0 2em 0;
   cursor: default;
+  font-family: "Font Awesome 5 Brands";
 }
 
 .icon.major:before {
@@ -2382,6 +2383,7 @@ input[type="radio"]:focus + label:before {
   border-radius: 100%;
   border: solid 1px;
   text-align: center;
+  font-family: "Font Awesome 5 Brands";
 }
 
 .icon.alt {
@@ -2417,7 +2419,7 @@ input[type="radio"]:focus + label:before {
 }
 
 .icon.style5 {
-  color: #bb2142;
+  color: #8aa722;
 }
 
 @media screen and (max-width: 1680px) {
