@@ -4,6 +4,18 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css"
+    />
+    <link
+      rel="stylesheet"
+      href="{{url_for('static', filename='assets/css/interview.css')}}"
+    />
     <title>Document</title>
   </head>
   <script type="module">
@@ -13,11 +25,51 @@
 
     h1.insertAdjacentHTML(
       "beforeend",
-      `${question.map((q) => `<h3>${q}</h3>`).join("")}`
+      `${question
+        .map((q, i) => {
+          const input = document.querySelector(`#interview${i + 1}`);
+          input.value = q.replace(/\d\./, "-");
+
+          return `<h3>${q.replace(/\d\./, "-")}</h3>`;
+        })
+        .join("")}`
     );
     console.log(question.join("\n"));
   </script>
+  <script type="module" src="../static/assets/js/textToSpeech.js"></script>
   <body>
     <h1>인터뷰 페이지</h1>
+    <div class="question" style="display: flex; flex-direction: column">
+      <h1>질문 1.</h1>
+      <input
+        id="interview1"
+        type="hidden"
+        value="{여기에 위의 질문지가 나와야 함}"
+        autocomplete="off"
+      />
+      <button class="voice">
+        <i class="fa fa-volume-up" style="font-size: 35px"></i>
+      </button>
+      <h1>질문 2.</h1>
+      <input
+        id="interview2"
+        type="hidden"
+        value="{여기에 위의 질문지가 나와야 함}"
+        autocomplete="off"
+      />
+      <button class="voice">
+        <i class="fa fa-volume-up" style="font-size: 35px"></i>
+      </button>
+      <h1>질문 3.</h1>
+      <input
+        id="interview3"
+        type="hidden"
+        value="{여기에 위의 질문지가 나와야 함}"
+        autocomplete="off"
+      />
+      <button class="voice">
+        <i class="fa fa-volume-up" style="font-size: 35px"></i>
+      </button>
+    </div>
   </body>
 </html>

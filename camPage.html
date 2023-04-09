@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="cam.css" />
+  </head>
+  <body>
+    <div class="wrapper">
+      <div class="button-container">
+        <button class="record-button">녹화</button>
+        <button class="stop-button">중지</button>
+        <button class="play-button">녹화보기</button>
+        <a class="download-button" download>다운로드</a>
+      </div>
+      <div class="video-container">
+        <div class="video-item">
+          <h2>~recording</h2>
+          <video autoplay muted id="preview"></video>
+          <!-- autoplay는 비디오가 실행될 준비가 끝나는대로 자동으로 실행됨 -->
+          <!-- muted가 아마 위의 속성을 막아주는듯 -->
+        </div>
+        <div class="video-item">
+          <h2>recorded~</h2>
+          <video id="recording"></video>
+        </div>
+      </div>
+    </div>
+    <script src="cam.js"></script>
+  </body>
+</html>
