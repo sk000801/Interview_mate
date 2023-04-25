@@ -2344,7 +2344,6 @@ input[type="radio"]:focus + label:before {
   text-rendering: auto;
   line-height: 1;
   text-transform: none !important;
-  font-family: "Font Awesome 5 Free";
   font-weight: 400;
 }
 
@@ -2371,17 +2370,16 @@ input[type="radio"]:focus + label:before {
   padding: 0.65em;
   margin: 0 0 2em 0;
   cursor: default;
-  font-family: "Font Awesome 5 Brands";
 }
 
 .icon.major:before {
   display: inline-block;
-  font-size: 6.25rem;
+  font-size: 1.25rem;
   width: 2.25em;
   height: 2.25em;
   line-height: 2.2em;
   border-radius: 100%;
-  border: solid 1px;
+  border: solid 5px;
   text-align: center;
   font-family: "Font Awesome 5 Brands";
 }
@@ -2389,7 +2387,6 @@ input[type="radio"]:focus + label:before {
 .icon.alt {
   display: inline-block;
   border: solid 1px;
-  
   border-radius: 100%;
 }
 
@@ -2411,7 +2408,7 @@ input[type="radio"]:focus + label:before {
 }
 
 .icon.style3 {
-  color: #a89cc8;
+  color: #4597a5;
 }
 
 .icon.style4 {

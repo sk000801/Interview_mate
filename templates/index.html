@@ -6,7 +6,6 @@
 -->
 <html>
   <head>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <title>면접메이트</title>
     <meta charset="utf-8" />
     <meta
@@ -17,15 +16,7 @@
     <!-- <link rel="stylesheet" href="../static/assets/css/main.css" /> -->
     <link
       rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
     />
     <link
       rel="stylesheet"
@@ -90,7 +81,7 @@
           </header>
           <ul class="features">
             <li>
-              <span class="icon solid major style1 fa-code"></span>
+              <span class="icon major style1"><i class="fas fa-file-pdf fa-4x"></i></span>
               <h3>자기소개서가 담긴 PDF파일 <br> ↓ <br> ChatGPT로 요약</h3>
               <p>
                 Python의 패키지를 활용해 자기소개서를 텍스트로 변환하고, 이를
@@ -98,7 +89,7 @@
               </p>
             </li>
             <li>
-              <span class="icon major style3 fa-face-smile"></span>
+              <span class="icon major style3"><i class="fas fa-clipboard-question fa-4x"></i></span>
               <h3>
                 ChatGPT 활용해 모의 면접 진행
               </h3>
@@ -108,7 +99,7 @@
               </p>
             </li>
             <li>
-              <span><i class = "icon major style5 fa fa-camera"></i></span>
+              <span class="icon major style5"><i class="fas fa-video fa-4x"></i></span>
               <h3>
                 사용자의 답변 및 <br />
                 실시간 영상 기록
@@ -139,17 +130,17 @@
           <ul class="statistics">
             <li class="style1">
               <!-- <i class="far fa-meh-rolling-eyes fa-lg"></i> -->
-              <span class="icon fa-eye"></span>
+              <span class = "icon major"><i class="fas fa-eye fa-3x"></i></span>
               <strong>시선 분석</strong>
             </li>
             <li class="style2">
               <!-- <i class="fa-regular fa-face-smile fa-2xl"></i>
                 <i class="fa fa-frown-o" aria-hidden="true"></i> -->
-              <span class="icon fa-face-smile"></span>
+              <span class = "icon major"><i class = "fas fa-face-smile fa-3x"></i></span>
               <strong>표정 분석</strong>
             </li>
             <li class="style3">
-              <span class="icon fa-frown-o"></span>
+              <span class = "icon major"><i class = "fas fa-arrows-to-eye fa-3x"></i></span>
               <strong>얼굴 방향 분석</strong>
             </li>
           </ul>
@@ -230,6 +221,5 @@
       type="module"
       src="{{url_for('static', filename='assets/js/pdfLoader.js')}}"
     ></script>
-    <script src="https://kit.fontawesome.com/12ec987af7.js" crossorigin="anonymous"></script>
   </body>
 </html>
