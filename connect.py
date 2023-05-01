@@ -4,7 +4,7 @@ import io
 import openai
 import xml.etree.ElementTree as ET
 
-openai.api_key = "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"
+openai.api_key = "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"
 
 app = Flask(__name__)
 
@@ -56,7 +56,7 @@ def makeQuestion(article):
 
 @app.route('/')
 def home():
-    return render_template('index.html')
+    return render_template('index1.html')
 
 @app.route('/interview')
 def interview():

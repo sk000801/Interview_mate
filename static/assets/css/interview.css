@@ -1,0 +1,7 @@
+.question {
+  display: flex;
+  flex-direction: column;
+}
+.voice {
+  width: 80px;
+}
