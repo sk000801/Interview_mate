@@ -30,12 +30,7 @@ form.addEventListener("submit", (event) => {
       localStorage.setItem(
         "question",
         // 문장에 쉼표가 포함될 경우 문제가 발생할 수 있음.
-        JSON.stringify(
-          createdQuestion["questionArray"]
-            .replaceAll(",", "")
-            .replaceAll("\n", ",")
-            .split(",")
-        )
+        JSON.stringify(createdQuestion["questionArray"])
         // .filter((s) => !/\d./.test(s))
       );
 
