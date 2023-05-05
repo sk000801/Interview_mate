@@ -1,5 +1,5 @@
 // ChatGPT API 키
-const API_KEY = "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";
+const API_KEY = "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";
 
 // API 호출 URL
 const API_URL = "https://api.openai.com/v1/chat/completions";
@@ -38,7 +38,9 @@ export class VoiceReader {
     this.#$questionButton.insertAdjacentHTML(
       "afterend",
       `
+        <div id = "speechForm" style="font-size: 30px; font-style: italic; font-weigth: bold;">지원자님의 대답: </div>
         <span id="speech_result"></span>
+        <div id = "gptForm" style="font-size: 30px; font-style: italic; font-weigth: bold;">ChatGPT의 평가입니다: </div>
         <div id="gpt-response"></div>
         <button type="button" id="start-record" disabled>
             Start Record

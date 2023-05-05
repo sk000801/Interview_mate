@@ -4,6 +4,11 @@ const input = form.querySelector("input");
 
 // 가져온 form에서 submit 이벤트가 발생할 때 다음과 같은 과정을 거친다.
 form.addEventListener("submit", (event) => {
+  const $loaderContainer = document.querySelector(".loader-container");
+
+  $loaderContainer.style.display = "flex";
+  form.setAttribute("hidden", "true");
+
   event.preventDefault();
 
   // 1. input 태그에서 선택된 파일을 가져온다.
@@ -33,6 +38,9 @@ form.addEventListener("submit", (event) => {
         JSON.stringify(createdQuestion["questionArray"])
         // .filter((s) => !/\d./.test(s))
       );
+
+      $loaderContainer.style.display = "none";
+      form.removeAttribute("hidden");
 
       window.location.href = "/video";
     })
