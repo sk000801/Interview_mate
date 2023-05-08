@@ -1,3 +1,12 @@
+/* #interview-header {
+  margin-left: 10px;
+  margin-bottom: 10px;
+} */
+
+#interview-header h1 {
+  margin-bottom: 10px;
+}
+
 .question {
   display: flex;
   flex-direction: column;

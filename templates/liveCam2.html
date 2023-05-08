@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<!--
+	Stellar by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+  <head>
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <title>면접메이트-면접중</title>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, user-scalable=no"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="{{url_for('static', filename='assets/css/main.css')}}"
+    />
+    <noscript
+      ><link
+        rel="stylesheet"
+        href="{{url_for('static', filename='assets/css/noscript.css')}}"
+    /></noscript>
+    <link
+      rel="stylesheet"
+      href="{{url_for('static', filename='assets/css/interview.css')}}"
+    />
+  </head>
+  <!-- class="is-preload" -->
+  <body style="overflow-x: hidden">
+    <header id="interview-header" class="alt">
+      <span class="logo"><img src="images/logo.svg" alt="" /></span>
+      <h1><strong>Interview Mate</strong></h1>
+    </header>
+    <script type="module" src="../static/assets/js/interview/index.js"></script>
+    <div class="container">
+      <div
+        class="row"
+        style="
+          width: 100vw;
+          overflow-x: hidden;
+          display: flex;
+          justify-content: center;
+        "
+      >
+        <div class="col-lg-8 offset-lg-2">
+          <img src="{{ url_for('video_feed') }}" width="100%" />
+        </div>
+      </div>
+      <h1 id="question-subtitle">질문 1</h1>
+      <input id="interview" type="hidden" value="" autocomplete="off" />
+      <button class="voice">
+        <i class="fa fa-volume-up" style="font-size: 35px"></i>
+      </button>
+      <div
+        style="
+          width: 100vw;
+          overflow-x: hidden;
+          display: flex;
+          justify-content: flex-end;
+        "
+      >
+        <button
+          id="nextButton"
+          style="
+            padding: 10px;
+            font-weight: 15px;
+            margin-right: 30px;
+            cursor: pointer;
+          "
+          disabled
+        >
+          다음
+        </button>
+      </div>
+    </div>
+
+    <!-- Scripts -->
+    <script
+      href="{{url_for('static', filename='assets/js/jquery.min.js')}}"
+    ></script>
+    <script
+      href="{{url_for('static', filename='assets/js/jquery.scrollex.min.js')}}"
+    ></script>
+    <script
+      href="{{url_for('static', filename='assets/jsjquery.scrolly.min.js')}}"
+    ></script>
+    <script
+      href="{{url_for('static', filename='assets/js/browser.min.js')}}"
+    ></script>
+    <script
+      href="{{url_for('static', filename='assets/js/breakpoints.min.js')}}"
+    ></script>
+    <script href="{{url_for('static', filename='assets/js/util.js')}}"></script>
+    <script href="{{url_for('static', filename='assets/js/main.js')}}"></script>
+
+    <script
+      type="module"
+      src="{{url_for('static', filename='assets/js/pdfLoading/index.js')}}"
+    ></script>
+    <script
+      src="https://kit.fontawesome.com/12ec987af7.js"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>

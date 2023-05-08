@@ -324,7 +324,7 @@ def home():
 
 @app.route('/video')
 def index():
-    return render_template('liveCam.html')
+    return render_template('liveCam2.html')
 
 @app.route('/video_feed')
 def video_feed():
