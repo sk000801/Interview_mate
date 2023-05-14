@@ -326,9 +326,6 @@ def home():
 def index():
     return render_template('liveCam2.html')
 
-@app.route('/video_feed')
-def video_feed():
-    return Response(start(), mimetype='multipart/x-mixed-replace; boundary=frame')
 
 @app.route('/interview')
 def interview():

@@ -28,7 +28,7 @@ export class VoiceReader {
 
     this.#$startRecordButton = document.querySelector("#start-record");
     this.#$stopRecordButton = document.querySelector("#stop-record");
-    this.#$speechResult = document.querySelector("#speech_result");
+    this.#$speechResult = document.querySelector("#speech-result");
     this.#$gptResponse = document.querySelector("#gpt-response");
 
     this.bindEvents();
@@ -38,14 +38,14 @@ export class VoiceReader {
     this.#$questionButton.insertAdjacentHTML(
       "afterend",
       `
-        <div id = "speechForm" style="font-size: 30px; font-style: italic; font-weigth: bold;">지원자님의 대답: </div>
-        <span id="speech_result"></span>
-        <div id = "gptForm" style="font-size: 30px; font-style: italic; font-weigth: bold;">ChatGPT의 평가입니다: </div>
-        <div id="gpt-response"></div>
-        <button type="button" id="start-record" disabled>
+        <div id="speechForm" style="font-size: 30px; font-style: italic; font-weigth: bold; color: black">지원자님의 대답: </div>
+        <div id="speech-result" style="color: black"></div>
+        <div id="gptForm" style="font-size: 30px; font-style: italic; font-weigth: bold; color: black">ChatGPT의 평가입니다: </div>
+        <div id="gpt-response" style="color: black"></div>
+        <button type="button" id="start-record" style="color: black" disabled>
             Start Record
         </button>
-        <button type="button" id="stop-record" disabled>
+        <button type="button" id="stop-record" style="color: black" disabled>
             Stop Record
         </button>
     `
@@ -107,8 +107,7 @@ export class VoiceReader {
 
       this.#$speechResult.innerHTML = text;
 
-      const response = await this.getGPTResponse(text);
-      console.log(response);
+      await this.getGPTResponse(text);
     });
 
     this.recognition.start();
