@@ -108,6 +108,15 @@ def start():
         frame = gaze.annotated_frame()
         text = ""
 
+        #고개 방향 변수
+        count = 0 #고개 방향을 몇번 체크했는지 확인하기 위한 변수
+        xarr = [] #고개의 x방향 위치를 저장하기 위한 리스트
+        xavg = 0 #고개의 x방향 위치의 평균을 저장하기 위한 변수
+        yarr = [] #고개의 y방향 위치를 저장하기 위한 리스트
+        yavg = 0 #고개의 y방향 위치의 평균을 저장하기 위한 변수
+        err = 0 #고개 방향이 지정한 범위를 몇 번 벗어났는지 확인하기 위한 변수
+
+        
         if ret == True:
             faces = find_faces(img, face_model)
             for face in faces:
@@ -170,24 +179,59 @@ def start():
                     ang2 = 90
                     
                     # print('div by zero error')
-                if ang1 >= 48:
-                    print('Head down')
-                    cv2.putText(img, 'Head down', (30, 30), cv2.FONT_HERSHEY_SIMPLEX , 2, (255, 255, 128), 3)
-                elif ang1 <= -48:
-                    print('Head up')
-                    cv2.putText(img, 'Head up', (30, 30), cv2.FONT_HERSHEY_SIMPLEX , 2, (255, 255, 128), 3)
-                
-                if ang2 >= 48:
-                    print('Head right')
-                    cv2.putText(img, 'Head right', (90, 30), cv2.FONT_HERSHEY_SIMPLEX , 2, (255, 255, 128), 3)
-                elif ang2 <= -48:
-                    print('Head left')
-                    cv2.putText(img, 'Head left', (90, 30), cv2.FONT_HERSHEY_SIMPLEX , 2, (255, 255, 128), 3)
+                #if ang1 >= 48:
+                #    print('Head down')
+                #    cv2.putText(img, 'Head down', (30, 30), cv2.FONT_HERSHEY_SIMPLEX , 2, (255, 255, 128), 3)
+                #elif ang1 <= -48:
+                #    print('Head up')
+                #    cv2.putText(img, 'Head up', (30, 30), cv2.FONT_HERSHEY_SIMPLEX , 2, (255, 255, 128), 3)
+                #
+                #if ang2 >= 48:
+                #    print('Head right')
+                #    cv2.putText(img, 'Head right', (90, 30), cv2.FONT_HERSHEY_SIMPLEX , 2, (255, 255, 128), 3)
+                #elif ang2 <= -48:
+                #    print('Head left')
+                #    cv2.putText(img, 'Head left', (90, 30), cv2.FONT_HERSHEY_SIMPLEX , 2, (255, 255, 128), 3)
                 
                 cv2.putText(frame, str(ang1), tuple(p1), cv2.FONT_HERSHEY_SIMPLEX , 2, (128, 255, 255), 3)
                 cv2.putText(frame, str(ang2), tuple(x1), cv2.FONT_HERSHEY_SIMPLEX , 2, (255, 255, 128), 3)
             # cv2.imshow('img', img)
+            
+            #count가 90이 될 때까지 xarr, yarr에 고개 위치 저장
+            #count 90은 대략 10초
+            if(count < 90):
+                xarr.append(ang2)
+                yarr.append(ang1)
+            #90이 되면 고개의 x방향 위치와 y방향 위치의 평균을 구함
+            elif(count == 90):
+                print("Count = 90!!")
+                for i in xarr:
+                    xavg = xavg + i
+                for i in yarr:
+                    yavg = yavg + i
+                xavg = xavg / len(xarr)
+                yavg = yavg / len(yarr)
+                print("xavg = ", xavg, " yavg = ", yavg)
+            #count가 90 이상히면 사용자의 고개 위치 확인
+            #x방향이 가운데를 기준으로 30 -> -30으로 확확 바뀜
+            #매 count마다 측정 시 이탈을 너무 많이할 가능성 있음!
+            elif(count % 27 == 0):
+                if(ang2 > 25 or ang2 < -35):
+                    print("X 방향 Warning")
+                    err = err + 1
+                if(ang1 > yavg + 10 or ang1 < yavg - 10):
+                    print("Y 방향 Warning")  
+                    err = err + 1         
+            count = count + 1
+            
+            #기준점
             if cv2.waitKey(1) & 0xFF == ord('q'):
+                if(err < 4):
+                    print()
+                elif(err > 4 and err < 8):
+                    print()
+                else:
+                    print()
                 break
         else:
             break
