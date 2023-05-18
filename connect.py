@@ -93,7 +93,7 @@ face_model = get_face_detector()
 landmark_model = get_landmark_model()
 EMOTIONS = ["angry" ,"disgust","scared", "happy", "sad", "surprised",
  "neutral"]
-
+emot=[0,0,0,0,0,0,0] # 감정횟수 별로 저장하기 위한 리스트
 def start():
     while True:
         # We get a new frame from the webcam
@@ -299,7 +299,27 @@ def start():
                     cv2.rectangle(frame, (fX, fY), (fX + fW, fY + fH),
                                 (0, 0, 255), 2)
                     ##요부분
-
+        if label == "angry":
+            emot[0]+=1
+            
+        elif label == "disgust":
+            emot[1] +=1
+            
+        elif label == "scared":
+            emot[2] +=1
+            
+        elif label == "happy":
+            emot[3] +=1  
+            
+        elif label == "sad":
+            emot[4] +=1
+            
+        elif label == "surprised":
+            emot[5] +=1
+            
+        elif label == "neutral":
+            emot[6] +=1    
+            
         cv2.imshow("Demo", frame)
         # cv2.imshow('your_face', frameClone)
         # cv2.imshow("Probabilities", canvas)
@@ -315,7 +335,9 @@ def start():
                b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')  # concat frame one by one and show result    
 # webcam.release()
 # cv2.destroyAllWindows()
-
+    good = (emot[3]+emot[6])/(emot[0]+emot[1]+emot[2]+emot[3]+emot[4]+emot[5]+emot[6])
+    gp=100*good
+    igp=math.trunc(gp) # 면접간의 표정이 얼마나 좋았는지 퍼센테이지
 def makeRequest(messages):
     return openai.ChatCompletion.create(
                 model = "gpt-3.5-turbo",
