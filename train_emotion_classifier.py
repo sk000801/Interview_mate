@@ -11,7 +11,7 @@ from models.cnn import mini_XCEPTION
 from sklearn.model_selection import train_test_split
 
 # parameters
-batch_size = 32
+batch_size = 50
 num_epochs = 10000
 input_shape = (48, 48, 1)
 validation_split = .2
