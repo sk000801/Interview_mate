@@ -4,9 +4,68 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Interview Result Page</title>
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="{{url_for('static', filename='assets/css/main.css')}}"
+    />
+    <noscript
+      ><link
+        rel="stylesheet"
+        href="{{url_for('static', filename='assets/css/noscript.css')}}"
+    /></noscript>
   </head>
   <body>
-    인터뷰 결과 페이지
+    <script type="module">
+      const getResult = async () => {
+        const response = await fetch("/fault");
+        const data = await response.json();
+
+        return data;
+      };
+
+      const result1 = document.querySelector(".res1");
+      const result2 = document.querySelector(".res2");
+      const result3 = document.querySelector(".res3");
+      const result4 = document.querySelector(".res4");
+      //promise객체가 반환이 되면 then을 쓰거나(후자의 경우가 아닐 때) async scope 내에서 await를 걸어줘야됨(위의 경우)
+      getResult().then(
+        (res) => {
+          const result = res.faultArray;
+          result1.innerHTML = result[0];
+          result2.innerHTML = result[1];
+          result3.innerHTML = result[2];
+          result4.innerHTML = result[3];
+          console.log(res);
+        }
+      );
+    </script>
+    <header id="interview-header" class="alt">
+      <span class="logo"><img src="images/logo.svg" alt="" /></span>
+      <h1 style="text-align: center"><strong>Interview Result</strong></h1>
+    </header>
+    <div id="main" style="display: flex; align-items: center; flex-direction: column;">
+      <h1>[결과표]</h1>
+      <h2 class="res1"></h1>
+      <h2 class="res2"></h1>
+      <h2 class="res3"></h1>
+      <h1 class="res4"></h1>  
+    </div>
   </body>
 </html>

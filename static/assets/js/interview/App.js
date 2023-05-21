@@ -52,6 +52,8 @@ export class App {
         this.#voiceReader.resetResult();
         $subTitle.innerHTML = ``;
 
+        fetch("/stop-video", { method: "PATCH" });
+
         window.location.href = `/interviewResult`;
 
         return;

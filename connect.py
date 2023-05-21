@@ -12,8 +12,11 @@ import PyPDF2
 import io
 import openai
 import xml.etree.ElementTree as ET
+import time as Time
 
 openai.api_key = "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"
+isEscape = False
+fault = []
 
 app = Flask(__name__)
 
@@ -94,8 +97,19 @@ landmark_model = get_landmark_model()
 EMOTIONS = ["angry" ,"disgust","scared", "happy", "sad", "surprised",
  "neutral"]
 emot=[0,0,0,0,0,0,0] # 감정횟수 별로 저장하기 위한 리스트
+
 def start():
+    firstLeftEye = []
+    firstRightEye = []
+    frameCount = 0
+    eyeErr = 0
+    startTime = 0
     while True:
+        if isEscape:
+            break
+        if(frameCount == 0):
+            startTime = Time.time()
+
         # We get a new frame from the webcam
         _, frame = webcam.read()
         ##각도움직임
@@ -226,12 +240,6 @@ def start():
             
             #기준점
             if cv2.waitKey(1) & 0xFF == ord('q'):
-                if(err < 4):
-                    print()
-                elif(err > 4 and err < 8):
-                    print()
-                else:
-                    print()
                 break
         else:
             break
@@ -249,6 +257,17 @@ def start():
 
         left_pupil = gaze.pupil_left_coords()
         right_pupil = gaze.pupil_right_coords()
+
+        if frameCount == 0 and type(left_pupil) != type(None) and type(right_pupil) != type(None):
+            firstLeftEye = left_pupil
+            firstRightEye = right_pupil
+            frameCount += 1
+
+        if type(left_pupil) != type(None) and type(right_pupil) != type(None):
+            if abs(sum(firstLeftEye)-sum(left_pupil)) >= 7 or abs(sum(firstRightEye)-sum(right_pupil) >= 7) :
+                #cv2.putText(frame, "Please look straight to the screen", (90, 105), cv2.FONT_HERSHEY_DUPLEX, 0.9, (147, 58, 31), 1)
+                eyeErr += 1
+        
         cv2.putText(frame, "Left pupil:  " + str(left_pupil), (90, 130), cv2.FONT_HERSHEY_DUPLEX, 0.9, (147, 58, 31), 1)
         cv2.putText(frame, "Right pupil: " + str(right_pupil), (90, 165), cv2.FONT_HERSHEY_DUPLEX, 0.9, (147, 58, 31), 1)
         
@@ -285,7 +304,7 @@ def start():
                     text = "{}: {:.2f}%".format(emotion, prob * 100)
 
                     # draw the label + probability bar on the canvas
-                # emoji_face = feelings_faces[np.argmax(preds)]
+                    # emoji_face = feelings_faces[np.argmax(preds)]
     
                     w = int(prob * 300)
                     cv2.rectangle(canvas, (7, (i * 35) + 5),
@@ -293,7 +312,7 @@ def start():
                     cv2.putText(canvas, text, (10, (i * 35) + 23),
                     cv2.FONT_HERSHEY_SIMPLEX, 0.45,
                     (255, 255, 255), 2)
-                    ##frame으로 바뀜
+                    #frame으로 바뀜
                     cv2.putText(frame, label, (fX, fY - 10),
                     cv2.FONT_HERSHEY_SIMPLEX, 0.45, (0, 0, 255), 2)
                     cv2.rectangle(frame, (fX, fY), (fX + fW, fY + fH),
@@ -320,7 +339,7 @@ def start():
         elif label == "neutral":
             emot[6] +=1    
             
-        cv2.imshow("Demo", frame)
+        #cv2.imshow("Demo", frame)
         # cv2.imshow('your_face', frameClone)
         # cv2.imshow("Probabilities", canvas)
 
@@ -329,15 +348,24 @@ def start():
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
    
-        ret, buffer = cv2.imencode('.jpg', frame)
-        frame = buffer.tobytes()
-        yield (b'--frame\r\n'
-               b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')  # concat frame one by one and show result    
-# webcam.release()
-# cv2.destroyAllWindows()
-    good = (emot[3]+emot[6])/(emot[0]+emot[1]+emot[2]+emot[3]+emot[4]+emot[5]+emot[6])
-    gp=100*good
-    igp=math.trunc(gp) # 면접간의 표정이 얼마나 좋았는지 퍼센테이지
+        # ret, buffer = cv2.imencode('.jpg', frame)
+        # frame = buffer.tobytes()
+        # yield (b'--frame\r\n'
+        #        b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')  # concat frame one by one and show result    
+
+        endTime = Time.time()
+        good = (emot[3]+emot[6])/(emot[0]+emot[1]+emot[2]+emot[3]+emot[4]+emot[5]+emot[6])
+        gp=100*good
+        igp=math.trunc(gp) # 면접간의 표정이 얼마나 좋았는지 퍼센테이지
+
+        interviewTime = endTime-startTime
+        
+        global fault
+        fault = [float(err/interviewTime), igp, float(eyeErr/interviewTime)]
+        print(f'fault: {fault}')
+
+    webcam.release()
+
 def makeRequest(messages):
     return openai.ChatCompletion.create(
                 model = "gpt-3.5-turbo",
@@ -354,7 +382,7 @@ def makeQuestion(article):
     for text in range(len(article)):
         pd_text_row.append(article[text])
 
-        if (text + 1) % 15 == 0:
+        if (text + 1) % 20 == 0:
             pd_text.append("".join(pd_text_row))
             pd_text_row = []
 
@@ -374,7 +402,7 @@ def makeQuestion(article):
 
         print(f"{i + 1}번째 텍스트를 gpt녀석이 기억했습니다.")
     
-    question = {"role":"user", "content": "다음 글을 읽고 현재 면접 중이고 너가 면접관이라 생각하고 한국말로 질문을 세가지 해줘.\n" + result}
+    question = {"role":"user", "content": "다음 글을 읽고 현재 면접 중이고 너가 면접관이라 생각하고 한국말로 질문을 한줄씩 띄워서 세 가지 해줘. 세 가지 질문의 유형은 다음과 같아. 첫번째 질문은 자기소개서와 관련된 질문, 두번째는 지원자가 지원한 직무에 충분한 지식이 있는지 파악할 수 있는 질문, 세번째는 지원자에게 까다로운, 한번 더 생각해야 하는 질문이야.\n" + result}
 
     print("gpt가 질문을 생성중입니다.")
 
@@ -392,10 +420,16 @@ def home():
 def index():
     return render_template('liveCam2.html')
 
+# @app.route('/video', methods=['POST'])
+# def startVideo():
+#     return start()
 
-@app.route('/interview')
-def interview():
-    return render_template('interview.html')
+# 이 start에서 반환된 값을 아래의 interviewResult 페이지에다 넘겨주어야 하는데 이걸 어케 해?
+@app.route('/video_feed') 
+def video_feed():
+    start()
+    return jsonify('success')
+    #return Response(start(), mimetype='multipart/x-mixed-replace; boundary=frame')
 
 @app.route('/interviewResult')
 def returnList():
@@ -426,10 +460,40 @@ def getPdfText():
     # 만들어진 dictionary를 jsonify 메서드를 사용해 json형태로 변환한 후 반환해준다.
     return jsonify({"questionArray" : question})
 
-@app.route('/test', methods=['GET'])
-def getTest():
-    return jsonify({"hi": "hihi"})
+@app.route('/stop-video', methods=['PATCH'])
+def stopVideo():
+    global isEscape
+    isEscape = True
+    print(f'isEscape가 {isEscape}로 변경되었습니다!')
+    return jsonify('success')
 
+@app.route('/fault', methods = ['GET'])
+def getFault():
+    global fault
+    faultMessage = ["📐 ", "😁 ", "👁️ "]
+    count = 0
+    if(fault[0] >= 0.13): faultMessage[0] += "고개 방향을 자주 변경합니다. 면접에 부정적인 영향을 끼칠 수 있습니다." 
+    elif(fault[0] >= 0.067):  faultMessage[0] += "고개 방향을 주의해주세요. 더 안정적인 자세로 고개를 유지해야 합니다."
+    else: 
+        faultMessage[0] += "고개 방향이 안정적입니다. 면접에 집중하는 인상을 줄 수 있습니다."
+        count += 1
+
+    if(fault[1] <= 60): faultMessage[1] += "면접상황에 적절치 않은 표정입니다."
+    elif(fault[1] <=85): faultMessage[1] += "조금더 자신감 있는 표정으로 참가해주세요."
+    else: 
+        faultMessage[1] += "면접상황에서 좋은 표정을 보이고 있습니다."
+        count += 1
+
+    if(fault[2] <= 1.00): 
+        faultMessage[2] += "시선이 거의 흔들리지 않고 안정적으로, 신뢰감을 줄 것 같습니다."
+        count += 1
+    elif(fault[2] <= 3.00): faultMessage[2] += "시선이 조금 흔들리지만 평균적입니다. 조금만 더 시선을 고정해주세요!"
+    else: faultMessage[2] += "시선이 자주 흔들립니다. 면접 상황에서는 시선을 똑바로 유지해 주세요."
+
+    if(count == 3): faultMessage.append("💐 축하드립니다! 모의 면접에 합격하셨습니다!")
+    else: faultMessage.append("😡 아쉽게도, 모의 면접에 불합격 하셨습니다.. 분발하세요!")
+    
+    return jsonify({"faultArray" : faultMessage})
 
 if __name__ == '__main__':
     #app.run('127.0.0.1', 5000, debug=True)

@@ -122,7 +122,7 @@ export class VoiceReader {
   async getGPTResponse(prompt) {
     const question = `"${
       this.#question
-    }" 라는 질문에 대한 답변인 "${prompt}"에 대해 네가 면접관이라고 생각하고 0점~10점 중 하나의 점수를 매기고 그 이유를 상세하게 설명해줘`;
+    }" 라는 질문에 대한 답변인 "${prompt}"에 대해 네가 면접관이라고 생각하고 0점~10점 중 하나의 점수를 매기고 그 이유를 상세하게 설명해줘. 대답은 (점수: , 한줄 띄우고 이유: ) 이런 형태로 해줘.`;
 
     try {
       const response = await fetch(API_URL, {
