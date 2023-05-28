@@ -467,6 +467,12 @@ def stopVideo():
     print(f'isEscape가 {isEscape}로 변경되었습니다!')
     return jsonify('success')
 
+@app.route('/answerFeedback', methods=['POST'])
+def getFeedback():
+    data = request.json()
+    feedback = data["feedbackList"]
+    
+
 @app.route('/fault', methods = ['GET'])
 def getFault():
     global fault
@@ -490,8 +496,8 @@ def getFault():
     elif(fault[2] <= 3.00): faultMessage[2] += "시선이 조금 흔들리지만 평균적입니다. 조금만 더 시선을 고정해주세요!"
     else: faultMessage[2] += "시선이 자주 흔들립니다. 면접 상황에서는 시선을 똑바로 유지해 주세요."
 
-    if(count == 3): faultMessage.append("💐 축하드립니다! 모의 면접에 합격하셨습니다!")
-    else: faultMessage.append("😡 아쉽게도, 모의 면접에 불합격 하셨습니다.. 분발하세요!")
+    if(count == 3): faultMessage.append("합격")
+    else: faultMessage.append("불합격")
     
     return jsonify({"faultArray" : faultMessage})
 

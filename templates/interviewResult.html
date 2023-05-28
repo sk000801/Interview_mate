@@ -31,7 +31,11 @@
         href="{{url_for('static', filename='assets/css/noscript.css')}}"
     /></noscript>
   </head>
-  <body>
+  <body style="align-items: center;
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+  width: 100%;">
     <script type="module">
       const getResult = async () => {
         const response = await fetch("/fault");
@@ -39,6 +43,27 @@
 
         return data;
       };
+
+      const INTERVIEW_RESULT_KEY = "interviewResultKey";
+      const resultData = localStorage.getItem(INTERVIEW_RESULT_KEY);
+      const interviewResult = JSON.parse(resultData);
+
+      //console.log(interviewResult)
+
+      localStorage.setItem(INTERVIEW_RESULT_KEY, '[]')
+
+      const feed1 = document.querySelector(".feed1");
+      const feed2 = document.querySelector(".feed2");
+      const feed3 = document.querySelector(".feed3");
+      feed1.innerHTML = interviewResult[0];
+      feed2.innerHTML = interviewResult[1];
+      feed3.innerHTML = interviewResult[2];
+
+      var interviewScore = 0;
+      for(var i = 0; i < 3; i++) {
+        interviewScore += parseInt(interviewResult[i].match(/[0-9]/g)[0]);
+      }
+      //console.log(interviewScore);
 
       const result1 = document.querySelector(".res1");
       const result2 = document.querySelector(".res2");
@@ -51,7 +76,9 @@
           result1.innerHTML = result[0];
           result2.innerHTML = result[1];
           result3.innerHTML = result[2];
-          result4.innerHTML = result[3];
+          if(result[3] == ("합격") && interviewScore >= 24) result4.innerHTML = "💐 축하드립니다! 모의 면접에 합격하셨습니다!"
+          else result4.innerHTML = "😡 아쉽게도, 모의 면접에 불합격 하셨습니다.. 분발하세요!";
+          
           console.log(res);
         }
       );
@@ -60,8 +87,13 @@
       <span class="logo"><img src="images/logo.svg" alt="" /></span>
       <h1 style="text-align: center"><strong>Interview Result</strong></h1>
     </header>
-    <div id="main" style="display: flex; align-items: center; flex-direction: column;">
+    <div id="main" style="display: flex; align-items: center; flex-direction: column; width:90%;">
       <h1>[결과표]</h1>
+      <h1>면접 답변 피드백</h1>
+      <h2 class="feed1"></h2>
+      <h2 class="feed2"></h2>
+      <h2 class="feed3"></h2>
+      <h1>영상 진단</h1>
       <h2 class="res1"></h1>
       <h2 class="res2"></h1>
       <h2 class="res3"></h1>

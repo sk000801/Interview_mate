@@ -18,34 +18,36 @@ export class VoiceReader {
   #$gptResponse;
   #question;
   recognition = null;
+  feedbackList = [];
 
   constructor(question, setNextButtonAvailable) {
     this.#question = question;
     this.setNextButtonAvailable = setNextButtonAvailable;
     this.#$questionButton = document.querySelector(".voice");
+    //아래가 내가 추가한 꼬리질문을 위한 버튼
 
     this.render();
 
     this.#$startRecordButton = document.querySelector("#start-record");
     this.#$stopRecordButton = document.querySelector("#stop-record");
-    this.#$speechResult = document.querySelector("#speech-result");
-    this.#$gptResponse = document.querySelector("#gpt-response");
+    // this.#$speechResult = document.querySelector("#speech-result");
+    // this.#$gptResponse = document.querySelector("#gpt-response");
 
     this.bindEvents();
   }
 
+  // <div id="speechForm" style="font-size: 30px; font-style: italic; font-weigth: bold; color: black">지원자님의 대답: </div>
+  // <div id="speech-result" style="color: black"></div>
+  // <div id="gptForm" style="font-size: 30px; font-style: italic; font-weigth: bold; color: black">ChatGPT의 평가입니다: </div>
+  // <div id="gpt-response" style="color: black"></div>
   render() {
     this.#$questionButton.insertAdjacentHTML(
       "afterend",
       `
-        <div id="speechForm" style="font-size: 30px; font-style: italic; font-weigth: bold; color: black">지원자님의 대답: </div>
-        <div id="speech-result" style="color: black"></div>
-        <div id="gptForm" style="font-size: 30px; font-style: italic; font-weigth: bold; color: black">ChatGPT의 평가입니다: </div>
-        <div id="gpt-response" style="color: black"></div>
-        <button type="button" id="start-record" style="color: black" disabled>
+        <button type="button" id="start-record" style="color: black; display:flex; align-items: center;" disabled>
             Start Record
         </button>
-        <button type="button" id="stop-record" style="color: black" disabled>
+        <button type="button" id="stop-record" style="color: black; display:flex; align-items: center;" disabled>
             Stop Record
         </button>
     `
@@ -57,10 +59,10 @@ export class VoiceReader {
     this.#$stopRecordButton.onclick = this.endSpeechRecognition.bind(this);
   }
 
-  resetResult() {
-    this.#$speechResult.innerHTML = "";
-    this.#$gptResponse.innerHTML = "";
-  }
+  // resetResult() {
+  //   this.#$speechResult.innerHTML = "";
+  //   this.#$gptResponse.innerHTML = "";
+  // }
 
   setQuestion(question) {
     this.#question = question;
@@ -105,7 +107,7 @@ export class VoiceReader {
       const text = event.results[0][0].transcript;
       console.log("Speech Result", event.results);
 
-      this.#$speechResult.innerHTML = text;
+      // this.#$speechResult.innerHTML = text;
 
       await this.getGPTResponse(text);
     });
@@ -122,7 +124,7 @@ export class VoiceReader {
   async getGPTResponse(prompt) {
     const question = `"${
       this.#question
-    }" 라는 질문에 대한 답변인 "${prompt}"에 대해 네가 면접관이라고 생각하고 0점~10점 중 하나의 점수를 매기고 그 이유를 상세하게 설명해줘. 대답은 (점수: , 한줄 띄우고 이유: ) 이런 형태로 해줘.`;
+    }" 라는 질문에 대한 답변인 "${prompt}"에 대해 네가 면접관이라고 생각하고 0점~10점 중 하나의 점수를 매기고 그 이유를 상세하게 설명해줘. 대답은 점수: , 이유:  이런 형태로 해줘.`;
 
     try {
       const response = await fetch(API_URL, {
@@ -135,11 +137,28 @@ export class VoiceReader {
       });
 
       const data = await response.json();
+      const feedback = await data.choices[0].message.content;
+      //.replace(/\./g, "<br/>")
 
-      this.#$gptResponse.innerHTML = data.choices[0].message.content.replaceAll(
-        ".",
-        "<br/>"
+      const INTERVIEW_RESULT_KEY = "interviewResultKey";
+
+      //this.#$gptResponse.innerHTML
+      const feedbackList = JSON.parse(
+        localStorage.getItem(INTERVIEW_RESULT_KEY)
       );
+
+      // console.log(
+      //   `로컬스토리지 저장값:`,
+      //   feedbackList,
+      //   `새로 추가될 지피티 응답`,
+      //   feedback
+      // );
+
+      localStorage.setItem(
+        INTERVIEW_RESULT_KEY,
+        JSON.stringify([...feedbackList, feedback])
+      );
+
       this.setNextButtonAvailable();
 
       return data;

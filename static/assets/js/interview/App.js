@@ -7,6 +7,8 @@ const $interviewButton = document.querySelector(".voice");
 const $nextButton = document.querySelector("#nextButton");
 const $subTitle = document.querySelector("#question-subtitle");
 
+const INTERVIEW_RESULT_KEY = "interviewResultKey";
+
 export class App {
   #voiceReader;
   #question;
@@ -24,6 +26,10 @@ export class App {
     $interviewInput.value = currentQuestion;
 
     this.bindEvents();
+  }
+
+  sendAnswerFeedback() {
+    window.location.href = `/interviewResult`;
   }
 
   setNextButtonAvailable() {
@@ -49,12 +55,14 @@ export class App {
 
         this.#voiceReader.setRecordDisable();
         this.setNextButtonDisable();
-        this.#voiceReader.resetResult();
+        //this.#voiceReader.resetResult();
+
         $subTitle.innerHTML = ``;
 
         fetch("/stop-video", { method: "PATCH" });
 
-        window.location.href = `/interviewResult`;
+        this.sendAnswerFeedback();
+        //this.#voiceReader.feedbackList = [];
 
         return;
       }
@@ -66,7 +74,8 @@ export class App {
 
       $interviewInput.value = currentQuestion;
       this.#voiceReader.setQuestion(currentQuestion);
-      this.#voiceReader.resetResult();
+      //this.#voiceReader.resetResult();
+      // this.#voiceReader.feedbackList = [];
     };
   }
 }
