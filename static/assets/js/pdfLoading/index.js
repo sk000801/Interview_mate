@@ -1,6 +1,7 @@
 // pdf-send-form 이란 클래스를 가진 form태그를 가져옴
 const form = document.querySelector(".pdf-send-form");
-const input = form.querySelector("input");
+const input = form.querySelector("input[type='file']");
+const extraInfo = form.querySelector("input[type='text'");
 
 // 가져온 form에서 submit 이벤트가 발생할 때 다음과 같은 과정을 거친다.
 form.addEventListener("submit", (event) => {
@@ -18,7 +19,9 @@ form.addEventListener("submit", (event) => {
   const formData = new FormData();
 
   // 3. 생성한 FormData에 1에서 가져온 파일을 추가해준다.
+  // ++텍스트를 추가해 지원자가 지원한 기업의 특성이나 직무의 특성을 파악한 질문이 더 잘 드러나도록 함
   formData.append("file", file);
+  formData.append("text", extraInfo);
 
   // 4. fetch api를 사용해 flask 서버의 '/pdf' 경로의 api에 요청을 넣는다.
   //async-await 처리를 통해 response가 오면 아래의 과정이 처리 되도록 한다.

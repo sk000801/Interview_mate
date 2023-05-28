@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from tensorflow.keras.utils import img_to_array
 import imutils
 from keras.models import load_model
@@ -372,7 +373,7 @@ def makeRequest(messages):
                 messages = [messages]
             )
 
-def makeQuestion(article):
+def makeQuestion(article, extraInfo):
     text = ""
     pd_text = []
     pd_text_row = []
@@ -402,7 +403,7 @@ def makeQuestion(article):
 
         print(f"{i + 1}번째 텍스트를 gpt녀석이 기억했습니다.")
     
-    question = {"role":"user", "content": "다음 글을 읽고 현재 면접 중이고 너가 면접관이라 생각하고 한국말로 질문을 한줄씩 띄워서 세 가지 해줘. 세 가지 질문의 유형은 다음과 같아. 첫번째 질문은 자기소개서와 관련된 질문, 두번째는 지원자가 지원한 직무에 충분한 지식이 있는지 파악할 수 있는 질문, 세번째는 지원자에게 까다로운, 한번 더 생각해야 하는 질문이야.\n" + result}
+    question = {"role":"user", "content": "다음 글을 읽고 현재 면접 중이고 너가 면접관이라 생각하고 한국말로 질문을 한줄씩 띄워서 세 가지 해줘. 지원한 기업, 직무는 "+ extraInfo + "이야. 세 가지 질문의 유형은 다음과 같아. 첫번째 질문은 자기소개서와 관련된 질문, 두번째는 지원자가 지원한 직무에 충분한 지식이 있는지 파악할 수 있는 질문, 세번째는 지원자에게 까다로운, 한번 더 생각해야 하는 질문이야.\n" + result}
 
     print("gpt가 질문을 생성중입니다.")
 
@@ -442,6 +443,7 @@ def getPdfText():
     
     # js로 요청 넣은 파일을 가져온다.
     file = request.files['file']
+    extraInfo = request.form.get('text')
 
     # PyPDF2 라이브러리의 PdfReader 메서드를 통해 파일을 읽는다.
     reader = PyPDF2.PdfReader(file)
@@ -454,7 +456,7 @@ def getPdfText():
         article += page.extract_text()
 
     # 만든 전체 자소서 텍스트를 gpt에 넘겨 질문을 생성한다.
-    question = makeQuestion(article)
+    question = makeQuestion(article, extraInfo)
 
     # 생성된 질문(string type array)을 questionArray라는 key값의 value로 설정한 dictionary를 만든다.
     # 만들어진 dictionary를 jsonify 메서드를 사용해 json형태로 변환한 후 반환해준다.
@@ -467,10 +469,10 @@ def stopVideo():
     print(f'isEscape가 {isEscape}로 변경되었습니다!')
     return jsonify('success')
 
-@app.route('/answerFeedback', methods=['POST'])
-def getFeedback():
-    data = request.json()
-    feedback = data["feedbackList"]
+# @app.route('/answerFeedback', methods=['POST'])
+# def getFeedback():
+#     data = request.json()
+#     feedback = data["feedbackList"]
     
 
 @app.route('/fault', methods = ['GET'])
