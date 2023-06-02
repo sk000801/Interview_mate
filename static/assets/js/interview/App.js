@@ -55,14 +55,12 @@ export class App {
 
         this.#voiceReader.setRecordDisable();
         this.setNextButtonDisable();
-        //this.#voiceReader.resetResult();
 
         $subTitle.innerHTML = ``;
 
         fetch("/stop-video", { method: "PATCH" });
 
         this.sendAnswerFeedback();
-        //this.#voiceReader.feedbackList = [];
 
         return;
       }
@@ -74,8 +72,6 @@ export class App {
 
       $interviewInput.value = currentQuestion;
       this.#voiceReader.setQuestion(currentQuestion);
-      //this.#voiceReader.resetResult();
-      // this.#voiceReader.feedbackList = [];
     };
   }
 }

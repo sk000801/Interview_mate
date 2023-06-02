@@ -1,7 +1,7 @@
 // pdf-send-form 이란 클래스를 가진 form태그를 가져옴
 const form = document.querySelector(".pdf-send-form");
 const input = form.querySelector("input[type='file']");
-const extraInfo = form.querySelector("input[type='text'");
+const extraInfo = form.querySelector("input[type='text']");
 
 // 가져온 form에서 submit 이벤트가 발생할 때 다음과 같은 과정을 거친다.
 form.addEventListener("submit", (event) => {

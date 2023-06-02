@@ -31,11 +31,15 @@
         href="{{url_for('static', filename='assets/css/noscript.css')}}"
     /></noscript>
   </head>
-  <body style="align-items: center;
-  justify-content: center;
-  display: flex;
-  flex-direction: column;
-  width: 100%;">
+  <body
+    style="
+      align-items: center;
+      justify-content: center;
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+    "
+  >
     <script type="module">
       const getResult = async () => {
         const response = await fetch("/fault");
@@ -48,19 +52,46 @@
       const resultData = localStorage.getItem(INTERVIEW_RESULT_KEY);
       const interviewResult = JSON.parse(resultData);
 
-      //console.log(interviewResult)
+      // const GOOD_ANSWER_KEY = "goodAnswerKey";
+      // const goodAnswerData = localStorage.getItem(GOOD_ANSWER_KEY);
+      // const goodAnswer = JSON.parse(goodAnswerData);
 
-      localStorage.setItem(INTERVIEW_RESULT_KEY, '[]')
+      console.log(interviewResult);
 
-      const feed1 = document.querySelector(".feed1");
-      const feed2 = document.querySelector(".feed2");
-      const feed3 = document.querySelector(".feed3");
-      feed1.innerHTML = interviewResult[0];
-      feed2.innerHTML = interviewResult[1];
-      feed3.innerHTML = interviewResult[2];
+      localStorage.setItem(INTERVIEW_RESULT_KEY, "[]");
+      // localStorage.setItem(GOOD_ANSWER_KEY, "[]");
+
+      const score1 = document.querySelector(".score1");
+      const score2 = document.querySelector(".score2");
+      const score3 = document.querySelector(".score3");
+
+      // const good1 = document.querySelector(".good1");
+      // const good2 = document.querySelector(".good2");
+      // const good3 = document.querySelector(".good3");
+
+      const reason1 = document.querySelector(".reason1");
+      const reason2 = document.querySelector(".reason2");
+      const reason3 = document.querySelector(".reason3");
+      reason1.innerHTML = interviewResult[0].split("이유:")[1];
+      reason2.innerHTML = interviewResult[1].split("이유:")[1];
+      reason3.innerHTML = interviewResult[2].split("이유:")[1];
 
       var interviewScore = 0;
-      for(var i = 0; i < 3; i++) {
+      for (var i = 0; i < 3; i++) {
+        switch (i) {
+          case 0:
+            score1.innerHTML = interviewResult[i].match(/[0-9]/g)[0];
+            // good1.innerHTML = goodAnswer[i];
+            break;
+          case 1:
+            score2.innerHTML = interviewResult[i].match(/[0-9]/g)[0];
+            // good2.innerHTML = goodAnswer[i];
+            break;
+          case 2:
+            score3.innerHTML = interviewResult[i].match(/[0-9]/g)[0];
+            // good3.innerHTML = goodAnswer[i];
+            break;
+        }
         interviewScore += parseInt(interviewResult[i].match(/[0-9]/g)[0]);
       }
       //console.log(interviewScore);
@@ -68,36 +99,86 @@
       const result1 = document.querySelector(".res1");
       const result2 = document.querySelector(".res2");
       const result3 = document.querySelector(".res3");
-      const result4 = document.querySelector(".res4");
+      const result4 = document.querySelector(".result");
       //promise객체가 반환이 되면 then을 쓰거나(후자의 경우가 아닐 때) async scope 내에서 await를 걸어줘야됨(위의 경우)
-      getResult().then(
-        (res) => {
-          const result = res.faultArray;
-          result1.innerHTML = result[0];
-          result2.innerHTML = result[1];
-          result3.innerHTML = result[2];
-          if(result[3] == ("합격") && interviewScore >= 24) result4.innerHTML = "💐 축하드립니다! 모의 면접에 합격하셨습니다!"
-          else result4.innerHTML = "😡 아쉽게도, 모의 면접에 불합격 하셨습니다.. 분발하세요!";
-          
-          console.log(res);
-        }
-      );
+      getResult().then((res) => {
+        const result = res.faultArray;
+        result1.innerHTML = result[0];
+        result2.innerHTML = result[1];
+        result3.innerHTML = result[2];
+        if (result[3] == "합격" && interviewScore >= 24)
+          result4.innerHTML = "💐 축하드립니다! 모의 면접에 합격하셨습니다!";
+        else
+          result4.innerHTML =
+            "😡 아쉽게도, 모의 면접에 불합격 하셨습니다.. 분발하세요!";
+
+        console.log(res);
+      });
     </script>
     <header id="interview-header" class="alt">
       <span class="logo"><img src="images/logo.svg" alt="" /></span>
       <h1 style="text-align: center"><strong>Interview Result</strong></h1>
     </header>
-    <div id="main" style="display: flex; align-items: center; flex-direction: column; width:90%;">
+    <div
+      id="main"
+      style="
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        width: 90%;
+      "
+    >
       <h1>[결과표]</h1>
-      <h1>면접 답변 피드백</h1>
-      <h2 class="feed1"></h2>
-      <h2 class="feed2"></h2>
-      <h2 class="feed3"></h2>
-      <h1>영상 진단</h1>
-      <h2 class="res1"></h1>
-      <h2 class="res2"></h1>
-      <h2 class="res3"></h1>
-      <h1 class="res4"></h1>  
+      <h1 class="result"></h1>
+      <h1>※ 면접 답변 피드백 ※</h1>
+      <table>
+        <thead>
+          <tr>
+            <th>질문</th>
+            <th>점수</th>
+            <th>이유</th>
+            <!-- <th>모범답안</th> -->
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1번</td>
+            <td class="score1"></td>
+            <td class="reason1"></td>
+            <!-- <td class="good1"></td> -->
+          </tr>
+          <tr>
+            <td>2번</td>
+            <td class="score2"></td>
+            <td class="reason2"></td>
+            <!-- <td class="good2"></td> -->
+          </tr>
+          <tr>
+            <td>3번</td>
+            <td class="score3"></td>
+            <td class="reason3"></td>
+            <!-- <td class="good3"></td> -->
+          </tr>
+        </tbody>
+      </table>
+
+      <h1>※ 영상 피드백 ※</h1>
+      <table>
+        <thead>
+          <tr>
+            <th>📐 얼굴 각도</th>
+            <th>😁 얼굴 표정</th>
+            <th>👁️ 시선 감지</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="res1"></td>
+            <td class="res2"></td>
+            <td class="res3"></td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </body>
 </html>

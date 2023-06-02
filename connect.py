@@ -421,11 +421,6 @@ def home():
 def index():
     return render_template('liveCam2.html')
 
-# @app.route('/video', methods=['POST'])
-# def startVideo():
-#     return start()
-
-# 이 start에서 반환된 값을 아래의 interviewResult 페이지에다 넘겨주어야 하는데 이걸 어케 해?
 @app.route('/video_feed') 
 def video_feed():
     start()
@@ -467,18 +462,12 @@ def stopVideo():
     global isEscape
     isEscape = True
     print(f'isEscape가 {isEscape}로 변경되었습니다!')
-    return jsonify('success')
-
-# @app.route('/answerFeedback', methods=['POST'])
-# def getFeedback():
-#     data = request.json()
-#     feedback = data["feedbackList"]
-    
+    return jsonify('success')    
 
 @app.route('/fault', methods = ['GET'])
 def getFault():
     global fault
-    faultMessage = ["📐 ", "😁 ", "👁️ "]
+    faultMessage = ["", "", "", ""]
     count = 0
     if(fault[0] >= 0.13): faultMessage[0] += "고개 방향을 자주 변경합니다. 면접에 부정적인 영향을 끼칠 수 있습니다." 
     elif(fault[0] >= 0.067):  faultMessage[0] += "고개 방향을 주의해주세요. 더 안정적인 자세로 고개를 유지해야 합니다."
@@ -498,8 +487,8 @@ def getFault():
     elif(fault[2] <= 3.00): faultMessage[2] += "시선이 조금 흔들리지만 평균적입니다. 조금만 더 시선을 고정해주세요!"
     else: faultMessage[2] += "시선이 자주 흔들립니다. 면접 상황에서는 시선을 똑바로 유지해 주세요."
 
-    if(count == 3): faultMessage.append("합격")
-    else: faultMessage.append("불합격")
+    if(count == 3): faultMessage[3] += "합격"
+    else: faultMessage[3] += "불합격"
     
     return jsonify({"faultArray" : faultMessage})
 
