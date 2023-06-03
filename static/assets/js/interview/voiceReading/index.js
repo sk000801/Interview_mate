@@ -121,41 +121,10 @@ export class VoiceReader {
     this.setRecordDisable();
   }
 
-  // async getGPTGoodResponse(prompt) {
-  //   const goodAnswer = `"${
-  //     this.#question
-  //   }" 라는 질문에 대한 모범 답안을 말해줘.`;
-
-  //   try {
-  //     const good_response = await fetch(API_URL, {
-  //       method: "POST",
-  //       headers: headers2,
-  //       body: JSON.stringify({
-  //         model: "gpt-3.5-turbo",
-  //         messages: [{ role: "user", content: goodAnswer }],
-  //       }),
-  //     });
-
-  //     const data1 = await good_response.json();
-  //     const goodAnswer = await data1.choices[0].message.content;
-  //     const GOOD_ANSWER_KEY = "goodAnswerKey";
-  //     const goodAnswerList = JSON.parse(localStorage.getItem(GOOD_ANSWER_KEY));
-
-  //     localStorage.setItem(
-  //       GOOD_ANSWER_KEY,
-  //       JSON.stringify([...goodAnswerList, goodAnswer])
-  //     );
-
-  //     return data1;
-  //   } catch {
-  //     return "Sorry, I could not generate a response at this time.";
-  //   }
-  // }
-
   async getGPTResponse(prompt) {
     const question = `"${
       this.#question
-    }" 라는 질문에 대한 답변인 "${prompt}"에 대해 네가 면접관이라고 생각하고 0점~10점 중 하나의 점수를 매기고 그 이유를 상세하게 설명해줘. 대답은 점수: , 이유:   형태로 해줘.`;
+    }" 라는 질문에 대한 답변인 "${prompt}"에 대해 네가 면접관이라고 생각하고 0점~10점 중 하나의 점수를 매기고 그 이유와 피드백을 간단히 말해줘. 대답은 점수: , 이유:   형태로 해줘.`;
 
     try {
       const response = await fetch(API_URL, {
@@ -184,7 +153,6 @@ export class VoiceReader {
 
       this.$nextButton.style.display = "flex";
       this.$loaderContainer2.setAttribute("hidden", "true");
-      // form.removeAttribute("hidden");
       this.setNextButtonAvailable();
 
       return data2;

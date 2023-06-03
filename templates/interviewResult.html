@@ -49,25 +49,19 @@
       };
 
       const INTERVIEW_RESULT_KEY = "interviewResultKey";
-      const resultData = localStorage.getItem(INTERVIEW_RESULT_KEY);
-      const interviewResult = JSON.parse(resultData);
-
-      // const GOOD_ANSWER_KEY = "goodAnswerKey";
-      // const goodAnswerData = localStorage.getItem(GOOD_ANSWER_KEY);
-      // const goodAnswer = JSON.parse(goodAnswerData);
-
-      console.log(interviewResult);
+      const EVALUATION_RESULT_KEY = "evaluation";
+      const interviewResult = JSON.parse(
+        localStorage.getItem(INTERVIEW_RESULT_KEY)
+      );
+      const evaluation = JSON.parse(
+        localStorage.getItem(EVALUATION_RESULT_KEY)
+      ).join("<br/>");
 
       localStorage.setItem(INTERVIEW_RESULT_KEY, "[]");
-      // localStorage.setItem(GOOD_ANSWER_KEY, "[]");
 
       const score1 = document.querySelector(".score1");
       const score2 = document.querySelector(".score2");
       const score3 = document.querySelector(".score3");
-
-      // const good1 = document.querySelector(".good1");
-      // const good2 = document.querySelector(".good2");
-      // const good3 = document.querySelector(".good3");
 
       const reason1 = document.querySelector(".reason1");
       const reason2 = document.querySelector(".reason2");
@@ -76,20 +70,21 @@
       reason2.innerHTML = interviewResult[1].split("이유:")[1];
       reason3.innerHTML = interviewResult[2].split("이유:")[1];
 
+      const $evaluationContainer = document.querySelector(".evaluation");
+      console.log($evaluationContainer);
+      $evaluationContainer.innerHTML = evaluation;
+
       var interviewScore = 0;
       for (var i = 0; i < 3; i++) {
         switch (i) {
           case 0:
             score1.innerHTML = interviewResult[i].match(/[0-9]/g)[0];
-            // good1.innerHTML = goodAnswer[i];
             break;
           case 1:
             score2.innerHTML = interviewResult[i].match(/[0-9]/g)[0];
-            // good2.innerHTML = goodAnswer[i];
             break;
           case 2:
             score3.innerHTML = interviewResult[i].match(/[0-9]/g)[0];
-            // good3.innerHTML = goodAnswer[i];
             break;
         }
         interviewScore += parseInt(interviewResult[i].match(/[0-9]/g)[0]);
@@ -107,10 +102,8 @@
         result2.innerHTML = result[1];
         result3.innerHTML = result[2];
         if (result[3] == "합격" && interviewScore >= 24)
-          result4.innerHTML = "💐 축하드립니다! 모의 면접에 합격하셨습니다!";
-        else
-          result4.innerHTML =
-            "😡 아쉽게도, 모의 면접에 불합격 하셨습니다.. 분발하세요!";
+          result4.innerHTML = "💐 합격";
+        else result4.innerHTML = "😡 불합격";
 
         console.log(res);
       });
@@ -128,16 +121,16 @@
         width: 90%;
       "
     >
-      <h1>[결과표]</h1>
       <h1 class="result"></h1>
-      <h1>※ 면접 답변 피드백 ※</h1>
+      <h1>✍️ 자기소개서 관련 피드백</h1>
+      <div class="evaluation"></div>
+      <h1>🤔 면접 답변 피드백</h1>
       <table>
         <thead>
           <tr>
             <th>질문</th>
             <th>점수</th>
             <th>이유</th>
-            <!-- <th>모범답안</th> -->
           </tr>
         </thead>
         <tbody>
@@ -145,24 +138,21 @@
             <td>1번</td>
             <td class="score1"></td>
             <td class="reason1"></td>
-            <!-- <td class="good1"></td> -->
           </tr>
           <tr>
             <td>2번</td>
             <td class="score2"></td>
             <td class="reason2"></td>
-            <!-- <td class="good2"></td> -->
           </tr>
           <tr>
             <td>3번</td>
             <td class="score3"></td>
             <td class="reason3"></td>
-            <!-- <td class="good3"></td> -->
           </tr>
         </tbody>
       </table>
 
-      <h1>※ 영상 피드백 ※</h1>
+      <h1>🫥 영상 피드백</h1>
       <table>
         <thead>
           <tr>

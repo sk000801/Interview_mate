@@ -373,37 +373,49 @@ def makeRequest(messages):
                 messages = [messages]
             )
 
-def makeQuestion(article, extraInfo):
-    text = ""
-    pd_text = []
-    pd_text_row = []
+def remeberText(article):
+    question = {"role":"assistant", "content": "다음 자기소개서를 기억해줘." + article}
+    completion = makeRequest(question)
 
-    article = article.split(".")
+def makeEvaluation():
+    question = {"role":"user", "content": "네가 면접관이라고 생각하고 기억한 자기소개서에서 개선점 위주로 피드백해줘."}
+    completion = makeRequest(question)
+    response = completion['choices'][0]['message']['content'].strip()
 
-    for text in range(len(article)):
-        pd_text_row.append(article[text])
+    return response.split('\n')
 
-        if (text + 1) % 20 == 0:
-            pd_text.append("".join(pd_text_row))
-            pd_text_row = []
 
-    result = ""
+def makeQuestion(extraInfo):
+    # text = ""
+    # pd_text = []
+    # pd_text_row = []
 
-    print("텍스트를 gpt 녀석에게 요약시키고 있습니다.")
-    print("긴 텍스트는 15문장을 기준으로 구분되어 gpt가 기억합니다.")
+    # article = article.split(".")
 
-    #자기소개서 내용 요약. result에 요약한 내용 저장
-    for i in range(len(pd_text)):
-        currentText = pd_text[i]
+    # for text in range(len(article)):
+    #     pd_text_row.append(article[text])
 
-        question = {"role":"user", "content": "다음 내용을 읽고 한국말로 요약해줘.\n" + currentText}
-        completion = makeRequest(question)
-        response = completion['choices'][0]['message']['content'].strip()
-        result += response
+    #     if (text + 1) % 20 == 0:
+    #         pd_text.append("".join(pd_text_row))
+    #         pd_text_row = []
 
-        print(f"{i + 1}번째 텍스트를 gpt녀석이 기억했습니다.")
+    # result = ""
+
+    # print("텍스트를 gpt 녀석에게 요약시키고 있습니다.")
+    # print("긴 텍스트는 15문장을 기준으로 구분되어 gpt가 기억합니다.")
+
+    # #자기소개서 내용 요약. result에 요약한 내용 저장
+    # for i in range(len(pd_text)):
+    #     currentText = pd_text[i]
+
+    #     question = {"role":"user", "content": "다음 내용을 읽고 한국말로 요약해줘.\n" + currentText}
+    #     completion = makeRequest(question)
+    #     response = completion['choices'][0]['message']['content'].strip()
+    #     result += response
+
+    #     print(f"{i + 1}번째 텍스트를 gpt녀석이 기억했습니다.")
     
-    question = {"role":"user", "content": "다음 글을 읽고 현재 면접 중이고 너가 면접관이라 생각하고 한국말로 질문을 한줄씩 띄워서 세 가지 해줘. 지원한 기업, 직무는 "+ extraInfo + "이야. 세 가지 질문의 유형은 다음과 같아. 첫번째 질문은 자기소개서와 관련된 질문, 두번째는 지원자가 지원한 직무에 충분한 지식이 있는지 파악할 수 있는 질문, 세번째는 지원자에게 까다로운, 한번 더 생각해야 하는 질문이야.\n" + result}
+    question = {"role":"user", "content": "기억한 자기소개서를 바탕으로 현재 면접 중이고 네가 면접관이라 생각하고 한국말로 질문을 한줄씩 띄워서 세 가지 해줘. 지원한 기업, 직무는 "+ extraInfo + "이야. 세 가지 질문의 유형은 다음과 같아. 첫번째 질문은 자기소개서와 관련된 질문, 두번째는 지원자가 지원한 직무에 충분한 지식이 있는지 파악할 수 있는 질문, 세번째는 지원자에게 까다로운, 한번 더 생각해야 하는 질문이야.\n"}
 
     print("gpt가 질문을 생성중입니다.")
 
@@ -451,11 +463,13 @@ def getPdfText():
         article += page.extract_text()
 
     # 만든 전체 자소서 텍스트를 gpt에 넘겨 질문을 생성한다.
-    question = makeQuestion(article, extraInfo)
+    remeberText(article)
+    evaluation = makeEvaluation()
+    question = makeQuestion(extraInfo)
 
     # 생성된 질문(string type array)을 questionArray라는 key값의 value로 설정한 dictionary를 만든다.
     # 만들어진 dictionary를 jsonify 메서드를 사용해 json형태로 변환한 후 반환해준다.
-    return jsonify({"questionArray" : question})
+    return jsonify({"questionArray" : question, 'evaluation': evaluation})
 
 @app.route('/stop-video', methods=['PATCH'])
 def stopVideo():

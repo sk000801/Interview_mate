@@ -32,14 +32,18 @@ form.addEventListener("submit", (event) => {
     // 5. 요청의 반환값을 json형태로 변환한다.
     //값이 반환될 때는 Response로 들어오는데 이 안의 data를 가져와야 하므로 json메서드를 호출한다.
     .then((response) => response.json())
-    .then((createdQuestion) => {
-      console.log(createdQuestion["questionArray"]);
+    .then((pdfParsingResult) => {
+      console.log(pdfParsingResult["questionArray"]);
+      console.log(pdfParsingResult["evaluation"]);
       // 6. 이제 가져온 녀석 처리하면 됩니당.
       localStorage.setItem(
         "question",
-        // 문장에 쉼표가 포함될 경우 문제가 발생할 수 있음.
-        JSON.stringify(createdQuestion["questionArray"])
-        // .filter((s) => !/\d./.test(s))
+        JSON.stringify(pdfParsingResult["questionArray"])
+      );
+
+      localStorage.setItem(
+        "evaluation",
+        JSON.stringify(pdfParsingResult["evaluation"])
       );
 
       $loaderContainer.style.display = "none";
