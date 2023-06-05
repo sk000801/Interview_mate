@@ -262,16 +262,16 @@ def start():
         frame = buffer.tobytes()
         yield (b'--frame\r\n'
                b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')  # concat frame one by one and show result    
-# webcam.release()
-# cv2.destroyAllWindows()
+webcam.release()
+cv2.destroyAllWindows()
 
-@app.route('/')
-def index():
-    return render_template('liveCam.html')
+# @app.route('/')
+# def index():
+#     return render_template('liveCam.html')
 
-@app.route('/video_feed')
-def video_feed():
-    return Response(start(), mimetype='multipart/x-mixed-replace; boundary=frame')
+# @app.route('/video_feed')
+# def video_feed():
+#     return Response(start(), mimetype='multipart/x-mixed-replace; boundary=frame')
 
-if __name__ == "__main__":
-    app.run('127.0.0.1', 5050, debug=True)
+# if __name__ == "__main__":
+#     app.run('127.0.0.1', 5050, debug=True)
