@@ -140,10 +140,13 @@ export class VoiceReader {
 
       const feedback = await data2.choices[0].message.content;
 
+      console.log(feedback);
+
       const INTERVIEW_RESULT_KEY = "interviewResultKey";
 
+      //null처리 위한 연산자
       const feedbackList = JSON.parse(
-        localStorage.getItem(INTERVIEW_RESULT_KEY)
+        localStorage.getItem(INTERVIEW_RESULT_KEY) ?? "[]"
       );
 
       localStorage.setItem(
